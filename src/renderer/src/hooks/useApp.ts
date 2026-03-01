@@ -1,5 +1,5 @@
 import { useState, useEffect, useCallback } from 'react'
-import type { Session, Message, MessageType, SessionState, LineValue } from '../types'
+import type { Session, Message, MessageType, SessionState, LineValue, CastResult } from '../types'
 import { autoCast, deriveHexagrams, tossThreeCoins, uid } from '../utils/casting'
 
 // ─── Window API type ──────────────────────────────────────────────────────────
@@ -86,7 +86,12 @@ export function useApp(): AppState & AppActions {
         metadata: r.metadata ? JSON.parse(r.metadata as string) : undefined,
         createdAt: r.created_at as number
       }))
-      setSessions(prev => prev.map(s => (s.id === sessionId ? { ...s, messages } : s)))
+
+      // Restore castResult from the stored hexagram_result message metadata
+      const resultMsg = [...messages].reverse().find(m => m.type === 'hexagram_result')
+      const castResult = (resultMsg?.metadata?.castResult as CastResult) ?? null
+
+      setSessions(prev => prev.map(s => (s.id === sessionId ? { ...s, messages, castResult } : s)))
     } catch (err) {
       console.error('loadSessionMessages:', err)
     }
