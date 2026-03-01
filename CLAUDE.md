@@ -28,14 +28,17 @@ npx tsc -p tsconfig.node.json --noEmit
 This is an Electron 33 + React 19 + TypeScript desktop app (macOS). It follows the standard Electron three-process model:
 
 **Main process** (`src/main/`)
+
 - `index.ts` — creates the BrowserWindow, registers all IPC handlers, calls `openDatabase()`
 - `db.ts` — opens `userData/data/luchao.db` (better-sqlite3), runs migrations, and exports `sessionQueries`, `messageQueries`, `settingQueries`
 
 **Preload** (`src/preload/index.ts`)
+
 - Exposes `window.api` via `contextBridge` with typed wrappers around `ipcRenderer.invoke()`
 - IPC channel naming convention: `entity:action` (e.g. `session:create`, `message:list`)
 
 **Renderer** (`src/renderer/src/`)
+
 - Pure React SPA. All Electron access goes through `window.api` — no direct Node imports in renderer
 - Single layout: `TopNav` (56px) | `Sidebar` (260px) | `ChatArea` (flex) | `RightPanel` (380px)
 - State is entirely managed by `hooks/useApp.ts` which owns sessions, messages, and coin-casting state
@@ -74,6 +77,7 @@ User input → ChatArea → useApp actions → window.api (IPC) → main process
 ### tsconfig setup
 
 Two separate tsconfigs (no `@electron-toolkit/tsconfig` package):
+
 - `tsconfig.node.json` — compiles main + preload
 - `tsconfig.web.json` — compiles renderer, requires `"jsx": "react-jsx"` explicitly
 

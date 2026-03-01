@@ -11,8 +11,6 @@ export function App() {
   const {
     sessions,
     activeSession,
-    isLoading,
-    coinStepIndex,
     createNewSession,
     setActiveSession,
     deleteSession,
@@ -36,7 +34,6 @@ export function App() {
 
         <ChatArea
           session={activeSession}
-          coinStepIndex={coinStepIndex}
           onSendQuestion={sendQuestion}
           onChooseMethod={chooseMethod}
           onTossCoinStep={tossCoinStep}

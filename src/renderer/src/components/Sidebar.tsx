@@ -24,7 +24,8 @@ function HexIcon({ lines }: { lines: import('../types').LineValue[] }) {
           <div key={i} className="sidebar__hex-line" />
         ) : (
           <div key={i} className="sidebar__hex-line--yin">
-            <span /><span />
+            <span />
+            <span />
           </div>
         )
       })}
@@ -36,11 +37,14 @@ function HexIcon({ lines }: { lines: import('../types').LineValue[] }) {
 function DefaultHexIcon() {
   return (
     <div className="sidebar__hex-icon">
-      {[1,0,1,0,1,0].map((isYang, i) =>
+      {[1, 0, 1, 0, 1, 0].map((isYang, i) =>
         isYang ? (
           <div key={i} className="sidebar__hex-line" />
         ) : (
-          <div key={i} className="sidebar__hex-line--yin"><span /><span /></div>
+          <div key={i} className="sidebar__hex-line--yin">
+            <span />
+            <span />
+          </div>
         )
       )}
     </div>
@@ -53,9 +57,10 @@ export function Sidebar({ sessions, activeSession, onNew, onSelect, onDelete }: 
   const [search, setSearch] = useState('')
   const [hoveredId, setHoveredId] = useState<string | null>(null)
 
-  const filtered = sessions.filter(s =>
-    s.title.toLowerCase().includes(search.toLowerCase()) ||
-    s.question.toLowerCase().includes(search.toLowerCase())
+  const filtered = sessions.filter(
+    s =>
+      s.title.toLowerCase().includes(search.toLowerCase()) ||
+      s.question.toLowerCase().includes(search.toLowerCase())
   )
 
   return (
@@ -95,11 +100,7 @@ export function Sidebar({ sessions, activeSession, onNew, onSelect, onDelete }: 
             onMouseEnter={() => setHoveredId(s.id)}
             onMouseLeave={() => setHoveredId(null)}
           >
-            {s.castResult ? (
-              <HexIcon lines={s.castResult.lines} />
-            ) : (
-              <DefaultHexIcon />
-            )}
+            {s.castResult ? <HexIcon lines={s.castResult.lines} /> : <DefaultHexIcon />}
 
             <div className="sidebar__history-text">
               <div className="sidebar__history-title">
@@ -112,7 +113,10 @@ export function Sidebar({ sessions, activeSession, onNew, onSelect, onDelete }: 
               <button
                 className="icon-btn"
                 style={{ width: 24, height: 24, border: 'none', color: 'var(--accent-cinnabar)' }}
-                onClick={e => { e.stopPropagation(); onDelete(s.id) }}
+                onClick={e => {
+                  e.stopPropagation()
+                  onDelete(s.id)
+                }}
                 title="Xoá"
               >
                 <Trash2 size={12} />
@@ -126,7 +130,9 @@ export function Sidebar({ sessions, activeSession, onNew, onSelect, onDelete }: 
       <div className="sidebar__section-label">Thẻ Phân Loại</div>
       <div className="sidebar__tags">
         {ALL_TAGS.map(tag => (
-          <span key={tag} className="sidebar__tag">{tag}</span>
+          <span key={tag} className="sidebar__tag">
+            {tag}
+          </span>
         ))}
       </div>
     </aside>

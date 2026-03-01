@@ -5,29 +5,29 @@ export type WuXing = 'Kim' | 'Mộc' | 'Thủy' | 'Hỏa' | 'Thổ'
 // ─── Trigrams ─────────────────────────────────────────────────────────────────
 
 export interface Trigram {
-  name: string        // e.g. "Càn"
-  chinese: string     // e.g. "乾"
-  binary: string      // e.g. "111" (MSB = top line)
+  name: string // e.g. "Càn"
+  chinese: string // e.g. "乾"
+  binary: string // e.g. "111" (MSB = top line)
   element: WuXing
-  nature: string      // e.g. "Trời"
+  nature: string // e.g. "Trời"
   direction: string
-  attribute: string   // e.g. "Sáng tạo"
+  attribute: string // e.g. "Sáng tạo"
 }
 
 // ─── Hexagram (quẻ) ───────────────────────────────────────────────────────────
 
 export interface Hexagram {
-  number: number        // King Wen 1-64
-  name: string          // Vietnamese e.g. "Càn"
-  fullName: string      // e.g. "Thuần Càn"
-  chinese: string       // e.g. "乾"
-  character: string     // Chinese character(s) e.g. "乾"
-  upperTrigram: string  // trigram name
-  lowerTrigram: string  // trigram name
-  element: WuXing       // dominant element
-  judgment: string      // Thoán Từ (brief Vietnamese)
-  image: string         // Đại Tượng (brief Vietnamese)
-  binary: string        // 6-bit string (bit0=line1-bottom .. bit5=line6-top)
+  number: number // King Wen 1-64
+  name: string // Vietnamese e.g. "Càn"
+  fullName: string // e.g. "Thuần Càn"
+  chinese: string // e.g. "乾"
+  character: string // Chinese character(s) e.g. "乾"
+  upperTrigram: string // trigram name
+  lowerTrigram: string // trigram name
+  element: WuXing // dominant element
+  judgment: string // Thoán Từ (brief Vietnamese)
+  image: string // Đại Tượng (brief Vietnamese)
+  binary: string // 6-bit string (bit0=line1-bottom .. bit5=line6-top)
 }
 
 // ─── Line values & casting ────────────────────────────────────────────────────
@@ -47,7 +47,7 @@ export interface CastResult {
   lines: LineValue[]
   primaryHex: Hexagram
   changedHex: Hexagram | null
-  changingLineIndices: number[]  // 0-based indices of changing lines
+  changingLineIndices: number[] // 0-based indices of changing lines
 }
 
 // ─── Six Relations (Lục Thân) ─────────────────────────────────────────────────
@@ -59,18 +59,23 @@ export type LucThan = 'Quan Quỷ' | 'Phụ Mẫu' | 'Thê Tài' | 'Tử Tôn' |
 export type LucThu = 'Thanh Long' | 'Chu Tước' | 'Câu Trần' | 'Đằng Xà' | 'Bạch Hổ' | 'Huyền Vũ'
 
 export const LUC_THU_ORDER: LucThu[] = [
-  'Thanh Long', 'Chu Tước', 'Câu Trần', 'Đằng Xà', 'Bạch Hổ', 'Huyền Vũ'
+  'Thanh Long',
+  'Chu Tước',
+  'Câu Trần',
+  'Đằng Xà',
+  'Bạch Hổ',
+  'Huyền Vũ'
 ]
 
 // ─── Hexagram line detail (for right panel display) ──────────────────────────
 
 export interface LineDetail {
-  index: number        // 0-5 (0=bottom)
-  label: string        // e.g. "Sơ Hào"
+  index: number // 0-5 (0=bottom)
+  label: string // e.g. "Sơ Hào"
   value: LineValue
   isYang: boolean
   isChanging: boolean
-  earthBranch: string  // Nạp Giáp 地支 e.g. "Tý"
+  earthBranch: string // Nạp Giáp 地支 e.g. "Tý"
   element: WuXing
   lucThan: LucThan
   lucThu: LucThu
@@ -99,10 +104,10 @@ export interface Message {
 // ─── Session ──────────────────────────────────────────────────────────────────
 
 export type SessionState =
-  | 'idle'          // no question asked yet
-  | 'asked'         // question sent, waiting for method choice
-  | 'casting'       // coin mode: step-by-step in progress
-  | 'cast_done'     // hexagram revealed, waiting for AI analysis
+  | 'idle' // no question asked yet
+  | 'asked' // question sent, waiting for method choice
+  | 'casting' // coin mode: step-by-step in progress
+  | 'cast_done' // hexagram revealed, waiting for AI analysis
 
 export interface Session {
   id: string

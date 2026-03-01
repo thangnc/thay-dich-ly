@@ -37,7 +37,9 @@ export function TopNav({ activeTab, onTabChange }: Props) {
       {/* Right area */}
       <div className="topnav__right">
         <span className="topnav__date">{getLunarDateString()}</span>
-        <div className="topnav__avatar" title="Lục Hào">六</div>
+        <div className="topnav__avatar" title="Lục Hào">
+          六
+        </div>
       </div>
     </nav>
   )

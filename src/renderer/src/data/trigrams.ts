@@ -7,36 +7,76 @@ import type { Trigram, WuXing } from '../types'
  */
 export const TRIGRAMS: Record<string, Trigram> = {
   Càn: {
-    name: 'Càn', chinese: '乾', binary: '111',
-    element: 'Kim', nature: 'Trời', direction: 'Tây Bắc', attribute: 'Sáng tạo, mạnh mẽ'
+    name: 'Càn',
+    chinese: '乾',
+    binary: '111',
+    element: 'Kim',
+    nature: 'Trời',
+    direction: 'Tây Bắc',
+    attribute: 'Sáng tạo, mạnh mẽ'
   },
   Đoài: {
-    name: 'Đoài', chinese: '兌', binary: '110',
-    element: 'Kim', nature: 'Hồ', direction: 'Tây', attribute: 'Vui vẻ, chia sẻ'
+    name: 'Đoài',
+    chinese: '兌',
+    binary: '110',
+    element: 'Kim',
+    nature: 'Hồ',
+    direction: 'Tây',
+    attribute: 'Vui vẻ, chia sẻ'
   },
   Ly: {
-    name: 'Ly', chinese: '離', binary: '101',
-    element: 'Hỏa', nature: 'Lửa', direction: 'Nam', attribute: 'Gắn kết, sáng rõ'
+    name: 'Ly',
+    chinese: '離',
+    binary: '101',
+    element: 'Hỏa',
+    nature: 'Lửa',
+    direction: 'Nam',
+    attribute: 'Gắn kết, sáng rõ'
   },
   Chấn: {
-    name: 'Chấn', chinese: '震', binary: '100',
-    element: 'Mộc', nature: 'Sấm', direction: 'Đông', attribute: 'Khởi động, hành động'
+    name: 'Chấn',
+    chinese: '震',
+    binary: '100',
+    element: 'Mộc',
+    nature: 'Sấm',
+    direction: 'Đông',
+    attribute: 'Khởi động, hành động'
   },
   Tốn: {
-    name: 'Tốn', chinese: '巽', binary: '011',
-    element: 'Mộc', nature: 'Gió', direction: 'Đông Nam', attribute: 'Thâm nhập, uyển chuyển'
+    name: 'Tốn',
+    chinese: '巽',
+    binary: '011',
+    element: 'Mộc',
+    nature: 'Gió',
+    direction: 'Đông Nam',
+    attribute: 'Thâm nhập, uyển chuyển'
   },
   Khảm: {
-    name: 'Khảm', chinese: '坎', binary: '010',
-    element: 'Thủy', nature: 'Nước', direction: 'Bắc', attribute: 'Hiểm nguy, kiên trì'
+    name: 'Khảm',
+    chinese: '坎',
+    binary: '010',
+    element: 'Thủy',
+    nature: 'Nước',
+    direction: 'Bắc',
+    attribute: 'Hiểm nguy, kiên trì'
   },
   Cấn: {
-    name: 'Cấn', chinese: '艮', binary: '001',
-    element: 'Thổ', nature: 'Núi', direction: 'Đông Bắc', attribute: 'Giữ vững, dừng lại'
+    name: 'Cấn',
+    chinese: '艮',
+    binary: '001',
+    element: 'Thổ',
+    nature: 'Núi',
+    direction: 'Đông Bắc',
+    attribute: 'Giữ vững, dừng lại'
   },
   Khôn: {
-    name: 'Khôn', chinese: '坤', binary: '000',
-    element: 'Thổ', nature: 'Đất', direction: 'Tây Nam', attribute: 'Nuôi dưỡng, tiếp nhận'
+    name: 'Khôn',
+    chinese: '坤',
+    binary: '000',
+    element: 'Thổ',
+    nature: 'Đất',
+    direction: 'Tây Nam',
+    attribute: 'Nuôi dưỡng, tiếp nhận'
   }
 }
 
@@ -46,7 +86,7 @@ export const TRIGRAM_BY_BINARY: Record<string, Trigram> = Object.fromEntries(
 )
 
 /** Get trigram name from 3 yang(1)/yin(0) values (bottom, mid, top) */
-export function getTrigramName(bottom: 0|1, mid: 0|1, top: 0|1): string {
+export function getTrigramName(bottom: 0 | 1, mid: 0 | 1, top: 0 | 1): string {
   const bin = `${top}${mid}${bottom}`
   return TRIGRAM_BY_BINARY[bin]?.name ?? 'Càn'
 }
@@ -55,12 +95,20 @@ export function getTrigramName(bottom: 0|1, mid: 0|1, top: 0|1): string {
 
 /** Generating cycle 相生: Wood → Fire → Earth → Metal → Water → Wood */
 export const SHENG_CYCLE: Record<WuXing, WuXing> = {
-  Mộc: 'Hỏa', Hỏa: 'Thổ', Thổ: 'Kim', Kim: 'Thủy', Thủy: 'Mộc'
+  Mộc: 'Hỏa',
+  Hỏa: 'Thổ',
+  Thổ: 'Kim',
+  Kim: 'Thủy',
+  Thủy: 'Mộc'
 }
 
 /** Controlling cycle 相剋: Wood → Earth → Water → Fire → Metal → Wood */
 export const KE_CYCLE: Record<WuXing, WuXing> = {
-  Mộc: 'Thổ', Thổ: 'Thủy', Thủy: 'Hỏa', Hỏa: 'Kim', Kim: 'Mộc'
+  Mộc: 'Thổ',
+  Thổ: 'Thủy',
+  Thủy: 'Hỏa',
+  Hỏa: 'Kim',
+  Kim: 'Mộc'
 }
 
 export const ELEMENT_COLORS: Record<WuXing, string> = {

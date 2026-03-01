@@ -59,34 +59,30 @@ app.on('window-all-closed', () => {
 function registerIpcHandlers(): void {
   // Sessions
   ipcMain.handle('session:create', (_e, id: string, title: string, question: string) =>
-    sessionQueries.create(id, title, question))
+    sessionQueries.create(id, title, question)
+  )
 
   ipcMain.handle('session:update', (_e, id: string, patch: object) =>
-    sessionQueries.update(id, patch as any))
+    sessionQueries.update(id, patch as any)
+  )
 
-  ipcMain.handle('session:list', () =>
-    sessionQueries.findAll())
+  ipcMain.handle('session:list', () => sessionQueries.findAll())
 
-  ipcMain.handle('session:get', (_e, id: string) =>
-    sessionQueries.findById(id))
+  ipcMain.handle('session:get', (_e, id: string) => sessionQueries.findById(id))
 
-  ipcMain.handle('session:delete', (_e, id: string) =>
-    sessionQueries.delete(id))
+  ipcMain.handle('session:delete', (_e, id: string) => sessionQueries.delete(id))
 
   // Messages
-  ipcMain.handle('message:add', (_e, row: object) =>
-    messageQueries.add(row as any))
+  ipcMain.handle('message:add', (_e, row: object) => messageQueries.add(row as any))
 
-  ipcMain.handle('message:list', (_e, sessionId: string) =>
-    messageQueries.findBySession(sessionId))
+  ipcMain.handle('message:list', (_e, sessionId: string) => messageQueries.findBySession(sessionId))
 
   ipcMain.handle('message:update', (_e, id: string, content: string) =>
-    messageQueries.updateContent(id, content))
+    messageQueries.updateContent(id, content)
+  )
 
   // Settings
-  ipcMain.handle('setting:get', (_e, key: string) =>
-    settingQueries.get(key))
+  ipcMain.handle('setting:get', (_e, key: string) => settingQueries.get(key))
 
-  ipcMain.handle('setting:set', (_e, key: string, value: string) =>
-    settingQueries.set(key, value))
+  ipcMain.handle('setting:set', (_e, key: string, value: string) => settingQueries.set(key, value))
 }

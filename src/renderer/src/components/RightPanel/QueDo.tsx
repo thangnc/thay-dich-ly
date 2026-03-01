@@ -1,8 +1,7 @@
 import type { CastResult, LineDetail } from '../../types'
 import { buildLineDetails } from '../../utils/casting'
 import { ELEMENT_COLORS } from '../../data/trigrams'
-import { lineIsYang, isChanging } from '../../types'
-import { LINE_LABELS } from '../../data/hexagrams'
+import { lineIsYang } from '../../types'
 
 interface Props {
   castResult: CastResult | null
@@ -11,10 +10,10 @@ interface Props {
 function EmptyState() {
   return (
     <div className="empty-state">
-      <div className="empty-state__icon" style={{ fontSize: 40 }}>☰</div>
-      <div className="empty-state__text">
-        Gieo quẻ để xem thông tin chi tiết về quẻ và các hào.
+      <div className="empty-state__icon" style={{ fontSize: 40 }}>
+        ☰
       </div>
+      <div className="empty-state__text">Gieo quẻ để xem thông tin chi tiết về quẻ và các hào.</div>
     </div>
   )
 }
@@ -55,17 +54,10 @@ function DiagramLines({ result }: { result: CastResult }) {
 function ElementDot({ element }: { element: import('../../types').WuXing }) {
   return (
     <span className="element-dot">
-      <span
-        className="element-dot__circle"
-        style={{ backgroundColor: ELEMENT_COLORS[element] }}
-      />
+      <span className="element-dot__circle" style={{ backgroundColor: ELEMENT_COLORS[element] }} />
       {element}
     </span>
   )
-}
-
-const LINE_VALUE_LABELS: Record<number, string> = {
-  6: '老阴 ×', 7: '少阳 —', 8: '少阴 --', 9: '老阳 ○'
 }
 
 export function QueDo({ castResult }: Props) {
@@ -80,7 +72,9 @@ export function QueDo({ castResult }: Props) {
       <div className="que-do__header">
         <DiagramLines result={castResult} />
         <div className="que-do__hex-info">
-          <div className="que-do__hex-number">Quẻ {primaryHex.number} · {primaryHex.chinese}</div>
+          <div className="que-do__hex-number">
+            Quẻ {primaryHex.number} · {primaryHex.chinese}
+          </div>
           <div className="que-do__hex-name">{primaryHex.fullName}</div>
           <div className="que-do__hex-char">{primaryHex.character}</div>
           <div className="que-do__trigrams">
@@ -92,14 +86,8 @@ export function QueDo({ castResult }: Props) {
       {/* Changing lines count badge */}
       {changingLineIndices.length > 0 && (
         <div style={{ display: 'flex', gap: 8, alignItems: 'center' }}>
-          <span className="badge badge--red">
-            {changingLineIndices.length} hào động
-          </span>
-          {changedHex && (
-            <span className="badge badge--gold">
-              → {changedHex.fullName}
-            </span>
-          )}
+          <span className="badge badge--red">{changingLineIndices.length} hào động</span>
+          {changedHex && <span className="badge badge--gold">→ {changedHex.fullName}</span>}
         </div>
       )}
 
@@ -123,8 +111,12 @@ export function QueDo({ castResult }: Props) {
                 <td className={`label-cell${d.isChanging ? ' changing' : ''}`}>
                   {d.label} {d.isChanging ? '●' : ''}
                 </td>
-                <td>{d.earthBranch} {d.isYang ? '—' : '--'}</td>
-                <td><ElementDot element={d.element} /></td>
+                <td>
+                  {d.earthBranch} {d.isYang ? '—' : '--'}
+                </td>
+                <td>
+                  <ElementDot element={d.element} />
+                </td>
                 <td>{d.lucThan}</td>
                 <td style={{ fontSize: 11 }}>{d.lucThu}</td>
               </tr>

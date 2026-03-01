@@ -8,7 +8,9 @@ interface Props {
 function EmptyState() {
   return (
     <div className="empty-state">
-      <div className="empty-state__icon" style={{ fontSize: 36 }}>☱</div>
+      <div className="empty-state__icon" style={{ fontSize: 36 }}>
+        ☱
+      </div>
       <div className="empty-state__text">Gieo quẻ để xem thông tin Bát Quái.</div>
     </div>
   )
@@ -16,14 +18,15 @@ function EmptyState() {
 
 function TrigramDiagram({ binary }: { binary: string }) {
   // binary: "111", "110" etc — bit2=top, bit1=mid, bit0=bottom of trigram
-  const bits = binary.split('').map(Number)  // [top, mid, bottom]
-  const linesDisplayOrder = [bits[0], bits[1], bits[2]].reverse() // show bottom first, then flip for display
-
+  const bits = binary.split('').map(Number) // [top, mid, bottom]
   return (
     <div className="trigram-box__diagram">
       {/* Display: bottom line first visually from top in column-reverse */}
       {[bits[2], bits[1], bits[0]].reverse().map((bit, i) => (
-        <div key={i} className={`trigram-box__line trigram-box__line--${bit === 1 ? 'yang' : 'yin'}`}>
+        <div
+          key={i}
+          className={`trigram-box__line trigram-box__line--${bit === 1 ? 'yang' : 'yin'}`}
+        >
           {bit === 1 ? (
             <div className="trigram-box__bar" style={{ flex: 1 }} />
           ) : (
@@ -38,7 +41,13 @@ function TrigramDiagram({ binary }: { binary: string }) {
   )
 }
 
-function TrigramBox({ label, trigramName }: { label: '上卦 (Thượng)' | '下卦 (Hạ)'; trigramName: string }) {
+function TrigramBox({
+  label,
+  trigramName
+}: {
+  label: '上卦 (Thượng)' | '下卦 (Hạ)'
+  trigramName: string
+}) {
   const trigram = TRIGRAMS[trigramName]
   if (!trigram) return null
 
@@ -63,7 +72,12 @@ function TrigramBox({ label, trigramName }: { label: '上卦 (Thượng)' | '下
         </div>
         <div className="trigram-box__attr">
           <span className="trigram-box__attr-key">Tính chất</span>
-          <span className="trigram-box__attr-val" style={{ fontSize: 10, textAlign: 'right', maxWidth: '60%' }}>{trigram.attribute}</span>
+          <span
+            className="trigram-box__attr-val"
+            style={{ fontSize: 10, textAlign: 'right', maxWidth: '60%' }}
+          >
+            {trigram.attribute}
+          </span>
         </div>
       </div>
     </div>
@@ -94,12 +108,20 @@ export function BatQuat({ castResult }: Props) {
         <div className="panel-section__title">Thân Quái</div>
         <div className="tham-khao__card">
           <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-            <div style={{ fontSize: 36, fontFamily: 'var(--font-serif)', color: 'var(--accent-cinnabar)' }}>
+            <div
+              style={{
+                fontSize: 36,
+                fontFamily: 'var(--font-serif)',
+                color: 'var(--accent-cinnabar)'
+              }}
+            >
               {primaryHex.character}
             </div>
             <div>
               <div style={{ fontWeight: 700, fontSize: 16 }}>{primaryHex.fullName}</div>
-              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>Quẻ số {primaryHex.number} · {primaryHex.chinese}</div>
+              <div style={{ fontSize: 12, color: 'var(--text-muted)' }}>
+                Quẻ số {primaryHex.number} · {primaryHex.chinese}
+              </div>
               <div style={{ fontSize: 12, color: 'var(--text-muted)', marginTop: 2 }}>
                 Ngũ hành chủ: {primaryHex.element}
               </div>

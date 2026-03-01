@@ -1,6 +1,6 @@
 import { Hexagon } from 'lucide-react'
 import type { Message, CastResult, LineValue } from '../../types'
-import { lineIsYang, isChanging } from '../../types'
+import { lineIsYang } from '../../types'
 import { formatRelative } from '../../utils/casting'
 
 // ─── Sub-components ────────────────────────────────────────────────────────────
@@ -71,7 +71,9 @@ function TextBubble({ msg }: { msg: Message }) {
     <div className={`msg${isUser ? ' msg--user' : ''}`}>
       {!isUser && <AssistantAvatar />}
       <div className="msg__body">
-        <div className="msg__bubble" style={{ whiteSpace: 'pre-wrap' }}>{msg.content}</div>
+        <div className="msg__bubble" style={{ whiteSpace: 'pre-wrap' }}>
+          {msg.content}
+        </div>
         <span className="msg__time">{formatRelative(msg.createdAt)}</span>
       </div>
     </div>
@@ -127,11 +129,14 @@ interface CastingStepProps {
 }
 
 function CastingStepBubble({ msg, onToss, isCurrent }: CastingStepProps) {
-  const step = msg.metadata?.step as number ?? 0
+  const step = (msg.metadata?.step as number) ?? 0
   const lineValue = msg.metadata?.lineValue as LineValue | undefined
   const lineNames = ['Sơ Hào', 'Nhị Hào', 'Tam Hào', 'Tứ Hào', 'Ngũ Hào', 'Thượng Hào']
   const lineValueNames: Record<number, string> = {
-    6: 'Lão Âm ×', 7: 'Thiếu Dương —', 8: 'Thiếu Âm - -', 9: 'Lão Dương ○'
+    6: 'Lão Âm ×',
+    7: 'Thiếu Dương —',
+    8: 'Thiếu Âm - -',
+    9: 'Lão Dương ○'
   }
 
   return (
@@ -200,26 +205,20 @@ interface Props {
   isCurrentCoinStep: boolean
 }
 
-export function MessageBubble({ msg, onChooseMethod, onTossCoin, isCastingActive, isCurrentCoinStep }: Props) {
+export function MessageBubble({
+  msg,
+  onChooseMethod,
+  onTossCoin,
+  isCastingActive,
+  isCurrentCoinStep
+}: Props) {
   switch (msg.type) {
     case 'welcome':
       return <WelcomeBubble msg={msg} />
     case 'method_select':
-      return (
-        <MethodSelectBubble
-          msg={msg}
-          onChoose={onChooseMethod}
-          disabled={isCastingActive}
-        />
-      )
+      return <MethodSelectBubble msg={msg} onChoose={onChooseMethod} disabled={isCastingActive} />
     case 'casting_step':
-      return (
-        <CastingStepBubble
-          msg={msg}
-          onToss={onTossCoin}
-          isCurrent={isCurrentCoinStep}
-        />
-      )
+      return <CastingStepBubble msg={msg} onToss={onTossCoin} isCurrent={isCurrentCoinStep} />
     case 'hexagram_result':
       return <HexagramResultBubble msg={msg} />
     default:

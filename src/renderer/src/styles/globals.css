@@ -1,49 +1,49 @@
 /* ── Design tokens (from web-app.pen) ─────────────────────────────────────── */
 :root {
   /* Backgrounds */
-  --bg-primary:   #FAFAF5;   /* main chat + app bg */
-  --bg-secondary: #F0EDE4;   /* right panel */
-  --bg-sidebar:   #1a1a2e;   /* left sidebar */
-  --bg-chat:      #FAFAF5;
-  --bg-card:      #FFFFFF;
-  --bg-input:     #FFFFFF;
+  --bg-primary: #fafaf5; /* main chat + app bg */
+  --bg-secondary: #f0ede4; /* right panel */
+  --bg-sidebar: #1a1a2e; /* left sidebar */
+  --bg-chat: #fafaf5;
+  --bg-card: #ffffff;
+  --bg-input: #ffffff;
 
   /* Sidebar internals */
-  --sidebar-search-bg:   #2d2b55;
-  --sidebar-item-hover:  rgba(255,255,255,0.06);
-  --sidebar-item-active: rgba(212,165,116,0.15);
+  --sidebar-search-bg: #2d2b55;
+  --sidebar-item-hover: rgba(255, 255, 255, 0.06);
+  --sidebar-item-active: rgba(212, 165, 116, 0.15);
 
   /* Accent colors */
-  --accent-cinnabar: #c0392b;   /* primary red */
+  --accent-cinnabar: #c0392b; /* primary red */
   --accent-cinnabar-hover: #a93226;
-  --accent-gold:     #d4a574;   /* gold */
-  --accent-jade:     #1A5C3A;   /* green */
+  --accent-gold: #d4a574; /* gold */
+  --accent-jade: #1a5c3a; /* green */
 
   /* Five Elements */
-  --el-mu:    #2d6a4f;  /* Mộc / Wood */
-  --el-hoa:   #c0392b;  /* Hỏa / Fire */
-  --el-tho:   #c4973b;  /* Thổ / Earth */
-  --el-kim:   #7a788e;  /* Kim / Metal */
-  --el-thuy:  #1a4d7a;  /* Thủy / Water */
+  --el-mu: #2d6a4f; /* Mộc / Wood */
+  --el-hoa: #c0392b; /* Hỏa / Fire */
+  --el-tho: #c4973b; /* Thổ / Earth */
+  --el-kim: #7a788e; /* Kim / Metal */
+  --el-thuy: #1a4d7a; /* Thủy / Water */
 
   /* Text */
   --text-primary: #1a1a2e;
-  --text-muted:   #6b6880;
+  --text-muted: #6b6880;
   --text-sidebar: #e0dff0;
   --text-sidebar-muted: #8a88a0;
 
   /* Borders */
-  --border:        #d8d4cc;
-  --border-light:  #e8e4db;
+  --border: #d8d4cc;
+  --border-light: #e8e4db;
   --border-strong: #c0bab2;
 
   /* Right panel tab bar */
-  --tab-bar-bg:    #e0dbd2;
+  --tab-bar-bg: #e0dbd2;
   --tab-active-bg: var(--bg-secondary);
 
   /* Shadows */
-  --shadow-sm: 0 1px 3px rgba(0,0,0,0.08);
-  --shadow-md: 0 4px 12px rgba(0,0,0,0.10);
+  --shadow-sm: 0 1px 3px rgba(0, 0, 0, 0.08);
+  --shadow-md: 0 4px 12px rgba(0, 0, 0, 0.1);
 
   /* Radii */
   --radius-sm: 6px;
@@ -51,20 +51,39 @@
   --radius-lg: 12px;
 
   /* Layout */
-  --topnav-h:    56px;
-  --sidebar-w:   260px;
+  --topnav-h: 56px;
+  --sidebar-w: 260px;
   --rightpanel-w: 380px;
   --chat-padding: 24px;
 
   /* Typography */
-  --font-body:   'Be Vietnam Pro', system-ui, sans-serif;
-  --font-serif:  'Noto Serif', Georgia, serif;
+  --font-body: 'Be Vietnam Pro', system-ui, sans-serif;
+  --font-serif: 'Noto Serif', Georgia, serif;
 }
 
 /* ── Reset & base ─────────────────────────────────────────────────────────── */
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
 
-html, body, #root {
+/* Form elements don't inherit font by default in WebKit — force it */
+button,
+input,
+textarea,
+select,
+optgroup {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+html,
+body,
+#root {
   height: 100%;
   overflow: hidden;
   background: var(--bg-primary);
@@ -76,10 +95,19 @@ html, body, #root {
 }
 
 /* ── Scrollbar ────────────────────────────────────────────────────────────── */
-::-webkit-scrollbar { width: 5px; }
-::-webkit-scrollbar-track { background: transparent; }
-::-webkit-scrollbar-thumb { background: var(--border-strong); border-radius: 99px; }
-::-webkit-scrollbar-thumb:hover { background: var(--text-muted); }
+::-webkit-scrollbar {
+  width: 5px;
+}
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+::-webkit-scrollbar-thumb {
+  background: var(--border-strong);
+  border-radius: 99px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: var(--text-muted);
+}
 
 /* ── App layout ───────────────────────────────────────────────────────────── */
 .app-layout {
@@ -105,7 +133,7 @@ html, body, #root {
   background: var(--bg-sidebar);
   flex-shrink: 0;
   -webkit-app-region: drag;
-  border-bottom: 1px solid rgba(255,255,255,0.06);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .topnav__logo {
@@ -115,7 +143,9 @@ html, body, #root {
   -webkit-app-region: no-drag;
 }
 
-.topnav__logo-icon { color: var(--accent-gold); }
+.topnav__logo-icon {
+  color: var(--accent-gold);
+}
 
 .topnav__app-name {
   font-size: 16px;
@@ -144,10 +174,14 @@ html, body, #root {
   border: none;
   background: transparent;
   border-bottom: 2px solid transparent;
-  transition: color 0.15s, border-color 0.15s;
+  transition:
+    color 0.15s,
+    border-color 0.15s;
   -webkit-app-region: no-drag;
 }
-.topnav__tab:hover { color: var(--text-sidebar); }
+.topnav__tab:hover {
+  color: var(--text-sidebar);
+}
 .topnav__tab--active {
   color: var(--accent-gold);
   border-bottom-color: var(--accent-gold);
@@ -190,7 +224,7 @@ html, body, #root {
   padding: 16px;
   overflow: hidden;
   flex-shrink: 0;
-  border-right: 1px solid rgba(255,255,255,0.06);
+  border-right: 1px solid rgba(255, 255, 255, 0.06);
 }
 
 .sidebar__new-btn {
@@ -209,7 +243,9 @@ html, body, #root {
   transition: background 0.15s;
   width: 100%;
 }
-.sidebar__new-btn:hover { background: var(--accent-cinnabar-hover); }
+.sidebar__new-btn:hover {
+  background: var(--accent-cinnabar-hover);
+}
 
 .sidebar__search {
   display: flex;
@@ -225,7 +261,9 @@ html, body, #root {
   border: 1px solid transparent;
   transition: border-color 0.15s;
 }
-.sidebar__search:focus-within { border-color: rgba(212,165,116,0.4); }
+.sidebar__search:focus-within {
+  border-color: rgba(212, 165, 116, 0.4);
+}
 .sidebar__search input {
   flex: 1;
   background: transparent;
@@ -233,9 +271,10 @@ html, body, #root {
   outline: none;
   color: var(--text-sidebar);
   font-size: 13px;
-  font-family: var(--font-body);
 }
-.sidebar__search input::placeholder { color: var(--text-sidebar-muted); }
+.sidebar__search input::placeholder {
+  color: var(--text-sidebar-muted);
+}
 
 .sidebar__section-label {
   font-size: 11px;
@@ -263,8 +302,12 @@ html, body, #root {
   cursor: pointer;
   transition: background 0.12s;
 }
-.sidebar__history-item:hover { background: var(--sidebar-item-hover); }
-.sidebar__history-item--active { background: var(--sidebar-item-active); }
+.sidebar__history-item:hover {
+  background: var(--sidebar-item-hover);
+}
+.sidebar__history-item--active {
+  background: var(--sidebar-item-active);
+}
 
 .sidebar__hex-icon {
   display: flex;
@@ -320,12 +363,14 @@ html, body, #root {
   font-size: 11px;
   padding: 3px 8px;
   border-radius: 99px;
-  background: rgba(212,165,116,0.15);
+  background: rgba(212, 165, 116, 0.15);
   color: var(--accent-gold);
   cursor: pointer;
   white-space: nowrap;
 }
-.sidebar__tag:hover { background: rgba(212,165,116,0.25); }
+.sidebar__tag:hover {
+  background: rgba(212, 165, 116, 0.25);
+}
 
 /* ── Chat Area ────────────────────────────────────────────────────────────── */
 .chat-area {
@@ -395,8 +440,15 @@ html, body, #root {
   color: #fff;
 }
 
-.msg__body { display: flex; flex-direction: column; gap: 4px; max-width: 72%; }
-.msg--user .msg__body { align-items: flex-end; }
+.msg__body {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+  max-width: 72%;
+}
+.msg--user .msg__body {
+  align-items: flex-end;
+}
 
 .msg__bubble {
   padding: 10px 14px;
@@ -449,12 +501,14 @@ html, body, #root {
   border: 1px solid var(--border);
   cursor: pointer;
   background: var(--bg-primary);
-  transition: border-color 0.15s, background 0.15s;
+  transition:
+    border-color 0.15s,
+    background 0.15s;
   text-align: left;
 }
 .method-card__option:hover {
   border-color: var(--accent-cinnabar);
-  background: rgba(192,57,43,0.04);
+  background: rgba(192, 57, 43, 0.04);
 }
 .method-card__option-name {
   font-size: 14px;
@@ -485,7 +539,7 @@ html, body, #root {
 }
 .hex-card__lines {
   display: flex;
-  flex-direction: column-reverse;  /* line 6 at top, line 1 at bottom */
+  flex-direction: column-reverse; /* line 6 at top, line 1 at bottom */
   gap: 5px;
 }
 .hex-card__line {
@@ -500,9 +554,15 @@ html, body, #root {
   border-radius: 2px;
   flex: 1;
 }
-.hex-card__line--yin .hex-card__line-bar:last-child { max-width: 36%; }
-.hex-card__line--yin .hex-card__line-bar:first-child { max-width: 36%; }
-.hex-card__line--changing { opacity: 0.7; }
+.hex-card__line--yin .hex-card__line-bar:last-child {
+  max-width: 36%;
+}
+.hex-card__line--yin .hex-card__line-bar:first-child {
+  max-width: 36%;
+}
+.hex-card__line--changing {
+  opacity: 0.7;
+}
 .hex-card__changing-mark {
   font-size: 11px;
   color: var(--accent-cinnabar);
@@ -510,7 +570,9 @@ html, body, #root {
   width: 14px;
   text-align: center;
 }
-.hex-card__info { flex: 1; }
+.hex-card__info {
+  flex: 1;
+}
 .hex-card__number {
   font-size: 11px;
   font-weight: 600;
@@ -542,7 +604,9 @@ html, body, #root {
   font-size: 12px;
   color: var(--text-muted);
 }
-.hex-card__changed strong { color: var(--accent-cinnabar); }
+.hex-card__changed strong {
+  color: var(--accent-cinnabar);
+}
 
 /* Coin toss step card */
 .coin-step {
@@ -576,8 +640,13 @@ html, body, #root {
   font-size: 20px;
   transition: transform 0.3s;
 }
-.coin-step__coin--heads { background: rgba(212,165,116,0.15); border-color: var(--accent-gold); }
-.coin-step__coin--tails { background: rgba(106,102,128,0.08); }
+.coin-step__coin--heads {
+  background: rgba(212, 165, 116, 0.15);
+  border-color: var(--accent-gold);
+}
+.coin-step__coin--tails {
+  background: rgba(106, 102, 128, 0.08);
+}
 .coin-step__result {
   font-size: 13px;
   font-weight: 600;
@@ -596,8 +665,13 @@ html, body, #root {
   border: none;
   cursor: pointer;
 }
-.coin-step__btn:hover { background: var(--accent-cinnabar-hover); }
-.coin-step__btn:disabled { opacity: 0.5; cursor: default; }
+.coin-step__btn:hover {
+  background: var(--accent-cinnabar-hover);
+}
+.coin-step__btn:disabled {
+  opacity: 0.5;
+  cursor: default;
+}
 
 /* ── Chat Input ───────────────────────────────────────────────────────────── */
 .chat-input-area {
@@ -617,7 +691,9 @@ html, body, #root {
   padding: 10px 12px;
   transition: border-color 0.15s;
 }
-.chat-input-box:focus-within { border-color: var(--accent-gold); }
+.chat-input-box:focus-within {
+  border-color: var(--accent-gold);
+}
 
 .chat-input-box textarea {
   flex: 1;
@@ -626,13 +702,14 @@ html, body, #root {
   outline: none;
   resize: none;
   font-size: 14px;
-  font-family: var(--font-body);
   color: var(--text-primary);
   line-height: 1.5;
   max-height: 120px;
   min-height: 24px;
 }
-.chat-input-box textarea::placeholder { color: var(--text-muted); }
+.chat-input-box textarea::placeholder {
+  color: var(--text-muted);
+}
 
 .chat-input__send {
   width: 36px;
@@ -646,10 +723,18 @@ html, body, #root {
   justify-content: center;
   color: #fff;
   flex-shrink: 0;
-  transition: background 0.15s, opacity 0.15s;
+  transition:
+    background 0.15s,
+    opacity 0.15s;
 }
-.chat-input__send:hover { background: var(--accent-cinnabar-hover); }
-.chat-input__send:disabled { opacity: 0.4; cursor: default; background: var(--text-muted); }
+.chat-input__send:hover {
+  background: var(--accent-cinnabar-hover);
+}
+.chat-input__send:disabled {
+  opacity: 0.4;
+  cursor: default;
+  background: var(--text-muted);
+}
 
 .chat-input__hint {
   font-size: 11px;
@@ -688,9 +773,14 @@ html, body, #root {
   border: none;
   background: transparent;
   border-radius: 8px 8px 0 0;
-  transition: background 0.15s, color 0.15s;
+  transition:
+    background 0.15s,
+    color 0.15s;
 }
-.right-panel__tab:hover { color: var(--text-primary); background: rgba(0,0,0,0.04); }
+.right-panel__tab:hover {
+  color: var(--text-primary);
+  background: rgba(0, 0, 0, 0.04);
+}
 .right-panel__tab--active {
   background: var(--bg-secondary);
   color: var(--text-primary);
@@ -749,18 +839,47 @@ html, body, #root {
   border-radius: 2px;
   background: var(--text-primary);
 }
-.que-do__diagram-line--yang .que-do__diagram-bar { flex: 1; }
-.que-do__diagram-line--yin .que-do__diagram-bar { flex: 1; }
-.que-do__diagram-line--yin .que-do__diagram-bar:nth-child(2) { display: none; }
-.que-do__diagram-line--yin .que-do__diagram-bar { max-width: 45%; }
-.que-do__diagram-line--changing { opacity: 0.6; }
-.que-do__diagram-line--changing .que-do__diagram-bar { background: var(--accent-cinnabar); }
+.que-do__diagram-line--yang .que-do__diagram-bar {
+  flex: 1;
+}
+.que-do__diagram-line--yin .que-do__diagram-bar {
+  flex: 1;
+}
+.que-do__diagram-line--yin .que-do__diagram-bar:nth-child(2) {
+  display: none;
+}
+.que-do__diagram-line--yin .que-do__diagram-bar {
+  max-width: 45%;
+}
+.que-do__diagram-line--changing {
+  opacity: 0.6;
+}
+.que-do__diagram-line--changing .que-do__diagram-bar {
+  background: var(--accent-cinnabar);
+}
 
-.que-do__hex-info {}
-.que-do__hex-number { font-size: 11px; font-weight: 600; color: var(--text-muted); }
-.que-do__hex-name   { font-size: 18px; font-weight: 700; color: var(--text-primary); }
-.que-do__hex-char   { font-size: 24px; color: var(--accent-cinnabar); font-family: var(--font-serif); }
-.que-do__trigrams   { font-size: 12px; color: var(--text-muted); margin-top: 2px; }
+.que-do__hex-info {
+}
+.que-do__hex-number {
+  font-size: 11px;
+  font-weight: 600;
+  color: var(--text-muted);
+}
+.que-do__hex-name {
+  font-size: 18px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.que-do__hex-char {
+  font-size: 24px;
+  color: var(--accent-cinnabar);
+  font-family: var(--font-serif);
+}
+.que-do__trigrams {
+  font-size: 12px;
+  color: var(--text-muted);
+  margin-top: 2px;
+}
 
 /* Line detail table */
 .line-table {
@@ -788,10 +907,19 @@ html, body, #root {
   color: var(--text-primary);
   border-bottom: 1px solid var(--border-light);
 }
-.line-table tr:last-child td { border-bottom: none; }
-.line-table tr:hover td { background: rgba(0,0,0,0.02); }
-.line-table .changing { color: var(--accent-cinnabar); font-weight: 600; }
-.line-table .label-cell { font-weight: 600; }
+.line-table tr:last-child td {
+  border-bottom: none;
+}
+.line-table tr:hover td {
+  background: rgba(0, 0, 0, 0.02);
+}
+.line-table .changing {
+  color: var(--accent-cinnabar);
+  font-weight: 600;
+}
+.line-table .label-cell {
+  font-weight: 600;
+}
 
 .element-dot {
   display: inline-flex;
@@ -825,14 +953,25 @@ html, body, #root {
   font-weight: 600;
   color: #fff;
   cursor: default;
-  border: 2px solid rgba(255,255,255,0.3);
+  border: 2px solid rgba(255, 255, 255, 0.3);
   box-shadow: var(--shadow-sm);
   transition: transform 0.15s;
 }
-.ngu-hanh__element:hover { transform: scale(1.08); }
-.ngu-hanh__element-zh { font-size: 16px; font-family: var(--font-serif); }
-.ngu-hanh__element-vi { font-size: 10px; opacity: 0.9; }
-.ngu-hanh__element--active { border-color: #fff; box-shadow: 0 0 0 3px rgba(255,255,255,0.4); }
+.ngu-hanh__element:hover {
+  transform: scale(1.08);
+}
+.ngu-hanh__element-zh {
+  font-size: 16px;
+  font-family: var(--font-serif);
+}
+.ngu-hanh__element-vi {
+  font-size: 10px;
+  opacity: 0.9;
+}
+.ngu-hanh__element--active {
+  border-color: #fff;
+  box-shadow: 0 0 0 3px rgba(255, 255, 255, 0.4);
+}
 
 .ngu-hanh__legend {
   display: flex;
@@ -855,8 +994,14 @@ html, body, #root {
   border-radius: 50%;
   flex-shrink: 0;
 }
-.ngu-hanh__legend-label { flex: 1; color: var(--text-primary); }
-.ngu-hanh__legend-val   { color: var(--text-muted); font-size: 11px; }
+.ngu-hanh__legend-label {
+  flex: 1;
+  color: var(--text-primary);
+}
+.ngu-hanh__legend-val {
+  color: var(--text-muted);
+  font-size: 11px;
+}
 
 /* ── Bát Quái Tab ─────────────────────────────────────────────────────────── */
 .bat-quai__trigrams {
@@ -873,22 +1018,62 @@ html, body, #root {
   flex-direction: column;
   gap: 8px;
 }
-.trigram-box__label { font-size: 10px; font-weight: 600; color: var(--text-muted); text-transform: uppercase; }
-.trigram-box__diagram { display: flex; flex-direction: column-reverse; gap: 3px; width: 36px; }
-.trigram-box__line { height: 3px; display: flex; gap: 3px; }
-.trigram-box__bar { height: 3px; border-radius: 1px; background: var(--text-primary); }
-.trigram-box__line--yang .trigram-box__bar { flex: 1; }
-.trigram-box__line--yin .trigram-box__bar { flex: 1; max-width: 45%; }
-.trigram-box__name { font-size: 15px; font-weight: 700; color: var(--text-primary); }
-.trigram-box__zh   { font-size: 18px; font-family: var(--font-serif); color: var(--accent-cinnabar); }
-.trigram-box__attrs { display: flex; flex-direction: column; gap: 3px; }
+.trigram-box__label {
+  font-size: 10px;
+  font-weight: 600;
+  color: var(--text-muted);
+  text-transform: uppercase;
+}
+.trigram-box__diagram {
+  display: flex;
+  flex-direction: column-reverse;
+  gap: 3px;
+  width: 36px;
+}
+.trigram-box__line {
+  height: 3px;
+  display: flex;
+  gap: 3px;
+}
+.trigram-box__bar {
+  height: 3px;
+  border-radius: 1px;
+  background: var(--text-primary);
+}
+.trigram-box__line--yang .trigram-box__bar {
+  flex: 1;
+}
+.trigram-box__line--yin .trigram-box__bar {
+  flex: 1;
+  max-width: 45%;
+}
+.trigram-box__name {
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--text-primary);
+}
+.trigram-box__zh {
+  font-size: 18px;
+  font-family: var(--font-serif);
+  color: var(--accent-cinnabar);
+}
+.trigram-box__attrs {
+  display: flex;
+  flex-direction: column;
+  gap: 3px;
+}
 .trigram-box__attr {
   display: flex;
   justify-content: space-between;
   font-size: 11px;
 }
-.trigram-box__attr-key { color: var(--text-muted); }
-.trigram-box__attr-val { color: var(--text-primary); font-weight: 500; }
+.trigram-box__attr-key {
+  color: var(--text-muted);
+}
+.trigram-box__attr-val {
+  color: var(--text-primary);
+  font-weight: 500;
+}
 
 /* ── Tham Khảo Tab ────────────────────────────────────────────────────────── */
 .tham-khao__card {
@@ -922,8 +1107,13 @@ html, body, #root {
   color: var(--text-muted);
   text-align: center;
 }
-.empty-state__icon { opacity: 0.4; }
-.empty-state__text { font-size: 13px; line-height: 1.5; }
+.empty-state__icon {
+  opacity: 0.4;
+}
+.empty-state__text {
+  font-size: 13px;
+  line-height: 1.5;
+}
 
 /* ── Utility ──────────────────────────────────────────────────────────────── */
 .icon-btn {
@@ -937,9 +1127,14 @@ html, body, #root {
   align-items: center;
   justify-content: center;
   color: var(--text-muted);
-  transition: background 0.12s, color 0.12s;
+  transition:
+    background 0.12s,
+    color 0.12s;
 }
-.icon-btn:hover { background: var(--border-light); color: var(--text-primary); }
+.icon-btn:hover {
+  background: var(--border-light);
+  color: var(--text-primary);
+}
 
 .badge {
   display: inline-flex;
@@ -949,5 +1144,11 @@ html, body, #root {
   font-size: 11px;
   font-weight: 600;
 }
-.badge--gold { background: rgba(212,165,116,0.2); color: #8b6914; }
-.badge--red  { background: rgba(192,57,43,0.1);  color: var(--accent-cinnabar); }
+.badge--gold {
+  background: rgba(212, 165, 116, 0.2);
+  color: #8b6914;
+}
+.badge--red {
+  background: rgba(192, 57, 43, 0.1);
+  color: var(--accent-cinnabar);
+}

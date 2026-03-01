@@ -11,9 +11,9 @@ import { getHexagramByLines, getEarthBranch, BRANCH_ELEMENT, LINE_LABELS } from 
 export function tossThreeCoins(): LineValue {
   let sum = 0
   for (let i = 0; i < 3; i++) {
-    sum += Math.random() < 0.5 ? 3 : 2  // heads=3, tails=2
+    sum += Math.random() < 0.5 ? 3 : 2 // heads=3, tails=2
   }
-  return sum as LineValue  // 6, 7, 8, or 9
+  return sum as LineValue // 6, 7, 8, or 9
 }
 
 /**
@@ -31,7 +31,7 @@ export function autoCast(): LineValue[] {
  * lineValues: index 0 = line 1 (bottom/sơ hào), 5 = line 6 (top/thượng hào)
  */
 export function deriveHexagrams(lineValues: LineValue[]): CastResult | null {
-  const primaryBits = lineValues.map(v => lineIsYang(v) ? 1 : 0) as (0 | 1)[]
+  const primaryBits = lineValues.map(v => (lineIsYang(v) ? 1 : 0)) as (0 | 1)[]
   const primaryHex = getHexagramByLines(primaryBits)
   if (!primaryHex) return null
 
@@ -44,7 +44,7 @@ export function deriveHexagrams(lineValues: LineValue[]): CastResult | null {
   if (changingIndices.length > 0) {
     // Flip changing lines to get changed hexagram
     const changedBits = primaryBits.map((b, i) =>
-      changingIndices.includes(i) ? (b === 1 ? 0 : 1) as 0 | 1 : b
+      changingIndices.includes(i) ? ((b === 1 ? 0 : 1) as 0 | 1) : b
     )
     changedHex = getHexagramByLines(changedBits) ?? null
   }
@@ -59,8 +59,14 @@ export function deriveHexagrams(lineValues: LineValue[]): CastResult | null {
 
 // ─── Lục Thân computation (simplified) ───────────────────────────────────────
 
-const SHENG: Record<string, string> = { Mộc: 'Hỏa', Hỏa: 'Thổ', Thổ: 'Kim', Kim: 'Thủy', Thủy: 'Mộc' }
-const KE: Record<string, string>    = { Mộc: 'Thổ', Thổ: 'Thủy', Thủy: 'Hỏa', Hỏa: 'Kim', Kim: 'Mộc' }
+const SHENG: Record<string, string> = {
+  Mộc: 'Hỏa',
+  Hỏa: 'Thổ',
+  Thổ: 'Kim',
+  Kim: 'Thủy',
+  Thủy: 'Mộc'
+}
+const KE: Record<string, string> = { Mộc: 'Thổ', Thổ: 'Thủy', Thủy: 'Hỏa', Hỏa: 'Kim', Kim: 'Mộc' }
 
 // ─── Build line details for right panel ───────────────────────────────────────
 
@@ -112,8 +118,11 @@ export function uid(): string {
 /** Format a timestamp to Vietnamese date string */
 export function formatDate(ts: number): string {
   return new Intl.DateTimeFormat('vi-VN', {
-    day: '2-digit', month: '2-digit', year: 'numeric',
-    hour: '2-digit', minute: '2-digit'
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+    hour: '2-digit',
+    minute: '2-digit'
   }).format(new Date(ts))
 }
 

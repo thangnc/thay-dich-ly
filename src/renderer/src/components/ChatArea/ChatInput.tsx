@@ -7,7 +7,11 @@ interface Props {
   placeholder?: string
 }
 
-export function ChatInput({ onSend, disabled, placeholder = 'Hãy nhập câu hỏi của bạn...' }: Props) {
+export function ChatInput({
+  onSend,
+  disabled,
+  placeholder = 'Hãy nhập câu hỏi của bạn...'
+}: Props) {
   const [value, setValue] = useState('')
   const textareaRef = useRef<HTMLTextAreaElement>(null)
 

@@ -12,9 +12,9 @@ interface Props {
 type TabId = 'que-do' | 'ngu-hanh' | 'bat-quai' | 'tham-khao'
 
 const TABS: { id: TabId; label: string }[] = [
-  { id: 'que-do',    label: 'Quẻ Đồ' },
-  { id: 'ngu-hanh',  label: 'Ngũ Hành' },
-  { id: 'bat-quai',  label: 'Bát Quái' },
+  { id: 'que-do', label: 'Quẻ Đồ' },
+  { id: 'ngu-hanh', label: 'Ngũ Hành' },
+  { id: 'bat-quai', label: 'Bát Quái' },
   { id: 'tham-khao', label: 'Tham Khảo' }
 ]
 
@@ -41,9 +41,9 @@ export function RightPanel({ castResult }: Props) {
 
       {/* Tab content */}
       <div className="right-panel__content">
-        {activeTab === 'que-do'    && <QueDo    castResult={castResult} />}
-        {activeTab === 'ngu-hanh'  && <NguHanh  castResult={castResult} />}
-        {activeTab === 'bat-quai'  && <BatQuat  castResult={castResult} />}
+        {activeTab === 'que-do' && <QueDo castResult={castResult} />}
+        {activeTab === 'ngu-hanh' && <NguHanh castResult={castResult} />}
+        {activeTab === 'bat-quai' && <BatQuat castResult={castResult} />}
         {activeTab === 'tham-khao' && <ThamKhao castResult={castResult} />}
       </div>
     </aside>

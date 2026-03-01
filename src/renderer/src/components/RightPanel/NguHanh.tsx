@@ -2,8 +2,6 @@ import type { CastResult, WuXing } from '../../types'
 import { ELEMENT_COLORS, ELEMENT_LABELS, SHENG_CYCLE, KE_CYCLE } from '../../data/trigrams'
 import { buildLineDetails } from '../../utils/casting'
 
-
-
 interface Props {
   castResult: CastResult | null
 }
@@ -11,7 +9,9 @@ interface Props {
 function EmptyState() {
   return (
     <div className="empty-state">
-      <div className="empty-state__icon" style={{ fontSize: 36 }}>☯</div>
+      <div className="empty-state__icon" style={{ fontSize: 36 }}>
+        ☯
+      </div>
       <div className="empty-state__text">Gieo quẻ để xem biểu đồ Ngũ Hành.</div>
     </div>
   )
@@ -21,17 +21,19 @@ function EmptyState() {
 function countElements(castResult: CastResult): Record<WuXing, number> {
   const details = buildLineDetails(castResult)
   const counts: Record<WuXing, number> = { Kim: 0, Mộc: 0, Thủy: 0, Hỏa: 0, Thổ: 0 }
-  details.forEach(d => { counts[d.element]++ })
+  details.forEach(d => {
+    counts[d.element]++
+  })
   return counts
 }
 
 /** Five-element wheel positioned using absolute coordinates */
 const WHEEL_POSITIONS: Record<WuXing, { top: string; left: string }> = {
-  Hỏa:  { top: '0%',   left: '50%'  },  // top (fire=south)
-  Mộc:  { top: '28%',  left: '5%'   },  // top-left (wood=east)
-  Thủy: { top: '68%',  left: '12%'  },  // bottom-left (water=north)
-  Kim:  { top: '28%',  left: '80%'  },  // top-right (metal=west)
-  Thổ:  { top: '68%',  left: '72%'  },  // bottom-right (earth=center-ish)
+  Hỏa: { top: '0%', left: '50%' }, // top (fire=south)
+  Mộc: { top: '28%', left: '5%' }, // top-left (wood=east)
+  Thủy: { top: '68%', left: '12%' }, // bottom-left (water=north)
+  Kim: { top: '28%', left: '80%' }, // top-right (metal=west)
+  Thổ: { top: '68%', left: '72%' } // bottom-right (earth=center-ish)
 }
 
 const ELEMENT_ORDER: WuXing[] = ['Kim', 'Mộc', 'Thủy', 'Hỏa', 'Thổ']
@@ -42,8 +44,12 @@ export function NguHanh({ castResult }: Props) {
   const hexElement = castResult.primaryHex.element
   const counts = countElements(castResult)
 
-  const _generatedBy = Object.entries(SHENG_CYCLE).find(([_k, v]) => v === hexElement)?.[0] as WuXing | undefined
-  const _controlledBy = Object.entries(KE_CYCLE).find(([_k, v]) => v === hexElement)?.[0] as WuXing | undefined
+  const _generatedBy = Object.entries(SHENG_CYCLE).find(([_k, v]) => v === hexElement)?.[0] as
+    | WuXing
+    | undefined
+  const _controlledBy = Object.entries(KE_CYCLE).find(([_k, v]) => v === hexElement)?.[0] as
+    | WuXing
+    | undefined
 
   return (
     <>
@@ -51,7 +57,10 @@ export function NguHanh({ castResult }: Props) {
       <div className="panel-section">
         <div className="panel-section__title">Biểu Đồ Ngũ Hành</div>
         <div style={{ position: 'relative', height: 200, marginBottom: 8 }}>
-          <div className="ngu-hanh__wheel" style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}>
+          <div
+            className="ngu-hanh__wheel"
+            style={{ position: 'absolute', inset: 0, width: '100%', height: '100%' }}
+          >
             {ELEMENT_ORDER.map(el => {
               const pos = WHEEL_POSITIONS[el]
               const isActive = el === hexElement
@@ -89,18 +98,31 @@ export function NguHanh({ castResult }: Props) {
             const pct = total > 0 ? Math.round((count / total) * 100) : 0
             return (
               <div key={el} className="ngu-hanh__legend-row">
-                <div className="ngu-hanh__legend-dot" style={{ backgroundColor: ELEMENT_COLORS[el] }} />
+                <div
+                  className="ngu-hanh__legend-dot"
+                  style={{ backgroundColor: ELEMENT_COLORS[el] }}
+                />
                 <span className="ngu-hanh__legend-label">
                   {el} {el === hexElement ? '★' : ''}
                 </span>
-                <div style={{ flex: 1, height: 4, background: 'var(--border-light)', borderRadius: 2, margin: '0 8px' }}>
-                  <div style={{
-                    height: '100%',
-                    width: `${pct}%`,
-                    backgroundColor: ELEMENT_COLORS[el],
+                <div
+                  style={{
+                    flex: 1,
+                    height: 4,
+                    background: 'var(--border-light)',
                     borderRadius: 2,
-                    transition: 'width 0.4s ease'
-                  }} />
+                    margin: '0 8px'
+                  }}
+                >
+                  <div
+                    style={{
+                      height: '100%',
+                      width: `${pct}%`,
+                      backgroundColor: ELEMENT_COLORS[el],
+                      borderRadius: 2,
+                      transition: 'width 0.4s ease'
+                    }}
+                  />
                 </div>
                 <span className="ngu-hanh__legend-val">{count} hào</span>
               </div>
@@ -143,7 +165,12 @@ export function NguHanh({ castResult }: Props) {
   )
 }
 
-function RelRow({ label, from, toEl, type }: {
+function RelRow({
+  label,
+  from,
+  toEl,
+  type
+}: {
   label: string
   from: WuXing
   toEl: WuXing

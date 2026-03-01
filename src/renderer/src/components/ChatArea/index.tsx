@@ -6,7 +6,6 @@ import { ChatInput } from './ChatInput'
 
 interface Props {
   session: Session | null
-  coinStepIndex: number
   onSendQuestion: (q: string) => void
   onChooseMethod: (method: 'auto' | 'coin') => void
   onTossCoinStep: () => void
@@ -15,7 +14,6 @@ interface Props {
 
 export function ChatArea({
   session,
-  coinStepIndex,
   onSendQuestion,
   onChooseMethod,
   onTossCoinStep,
@@ -40,12 +38,12 @@ export function ChatArea({
   const inputPlaceholder = isCastDone
     ? 'Nhập câu hỏi tiếp theo...'
     : !session
-    ? 'Tạo một quẻ mới để bắt đầu'
-    : session.state === 'idle'
-    ? 'Hãy nhập câu hỏi của bạn...'
-    : session.state === 'asked'
-    ? 'Đang chờ bạn chọn phương pháp...'
-    : 'Đang gieo quẻ...'
+      ? 'Tạo một quẻ mới để bắt đầu'
+      : session.state === 'idle'
+        ? 'Hãy nhập câu hỏi của bạn...'
+        : session.state === 'asked'
+          ? 'Đang chờ bạn chọn phương pháp...'
+          : 'Đang gieo quẻ...'
 
   // No session state
   if (!session) {
@@ -75,7 +73,8 @@ export function ChatArea({
           {session.castResult && (
             <div className="chat-header__sub">
               Quẻ số {session.castResult.primaryHex.number} ·{' '}
-              {session.castResult.primaryHex.upperTrigram} trên {session.castResult.primaryHex.lowerTrigram} dưới
+              {session.castResult.primaryHex.upperTrigram} trên{' '}
+              {session.castResult.primaryHex.lowerTrigram} dưới
             </div>
           )}
         </div>
@@ -88,13 +87,12 @@ export function ChatArea({
 
       {/* Messages */}
       <div className="chat-messages">
-        {session.messages.map((msg, idx) => {
+        {session.messages.map(msg => {
           // Determine if this is the currently-active casting step
           const isCoinStep = msg.type === 'casting_step'
-          const thisCastingIndex = isCoinStep
-            ? castingMessages.findIndex(m => m.id === msg.id)
-            : -1
-          const isCurrentCoinStep = isCoinStep && thisCastingIndex === lastCastingMsgIndex && isCasting
+          const thisCastingIndex = isCoinStep ? castingMessages.findIndex(m => m.id === msg.id) : -1
+          const isCurrentCoinStep =
+            isCoinStep && thisCastingIndex === lastCastingMsgIndex && isCasting
 
           return (
             <MessageBubble
@@ -111,11 +109,7 @@ export function ChatArea({
       </div>
 
       {/* Input */}
-      <ChatInput
-        onSend={onSendQuestion}
-        disabled={inputDisabled}
-        placeholder={inputPlaceholder}
-      />
+      <ChatInput onSend={onSendQuestion} disabled={inputDisabled} placeholder={inputPlaceholder} />
     </div>
   )
 }

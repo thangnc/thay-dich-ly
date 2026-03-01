@@ -9,10 +9,10 @@ export interface SessionRow {
   id: string
   title: string
   question: string
-  hex_lines: string | null      // JSON: number[] (6 line values 6/7/8/9)
-  hex_number: number | null     // King Wen number of primary hexagram
-  hex_changed: number | null    // King Wen number of changed hexagram (or null)
-  tags: string | null           // JSON: string[]
+  hex_lines: string | null // JSON: number[] (6 line values 6/7/8/9)
+  hex_number: number | null // King Wen number of primary hexagram
+  hex_changed: number | null // King Wen number of changed hexagram (or null)
+  tags: string | null // JSON: string[]
   created_at: number
 }
 
@@ -21,8 +21,8 @@ export interface MessageRow {
   session_id: string
   role: 'user' | 'assistant'
   content: string
-  msg_type: string   // 'text' | 'method_select' | 'hexagram_result' | 'casting_step' | 'ai_analysis'
-  metadata: string | null  // JSON blob for extra data
+  msg_type: string // 'text' | 'method_select' | 'hexagram_result' | 'casting_step' | 'ai_analysis'
+  metadata: string | null // JSON blob for extra data
   created_at: number
 }
 
@@ -91,7 +91,12 @@ export const sessionQueries = {
     return stmt.get(id, title, question, Date.now()) as SessionRow
   },
 
-  update(id: string, patch: Partial<Pick<SessionRow, 'title' | 'question' | 'hex_lines' | 'hex_number' | 'hex_changed' | 'tags'>>): void {
+  update(
+    id: string,
+    patch: Partial<
+      Pick<SessionRow, 'title' | 'question' | 'hex_lines' | 'hex_number' | 'hex_changed' | 'tags'>
+    >
+  ): void {
     const sets: string[] = []
     const values: unknown[] = []
     for (const [key, val] of Object.entries(patch)) {
@@ -104,7 +109,9 @@ export const sessionQueries = {
   },
 
   findAll(): SessionRow[] {
-    return db.prepare('SELECT * FROM sessions ORDER BY created_at DESC LIMIT 50').all() as SessionRow[]
+    return db
+      .prepare('SELECT * FROM sessions ORDER BY created_at DESC LIMIT 50')
+      .all() as SessionRow[]
   },
 
   findById(id: string): SessionRow | undefined {
@@ -125,11 +132,21 @@ export const messageQueries = {
       VALUES (?, ?, ?, ?, ?, ?, ?)
       RETURNING *
     `)
-    return stmt.get(row.id, row.session_id, row.role, row.content, row.msg_type, row.metadata ?? null, Date.now()) as MessageRow
+    return stmt.get(
+      row.id,
+      row.session_id,
+      row.role,
+      row.content,
+      row.msg_type,
+      row.metadata ?? null,
+      Date.now()
+    ) as MessageRow
   },
 
   findBySession(sessionId: string): MessageRow[] {
-    return db.prepare('SELECT * FROM messages WHERE session_id = ? ORDER BY created_at ASC').all(sessionId) as MessageRow[]
+    return db
+      .prepare('SELECT * FROM messages WHERE session_id = ? ORDER BY created_at ASC')
+      .all(sessionId) as MessageRow[]
   },
 
   updateContent(id: string, content: string): void {
@@ -141,7 +158,9 @@ export const messageQueries = {
 
 export const settingQueries = {
   get(key: string): string | null {
-    const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key) as SettingRow | undefined
+    const row = db.prepare('SELECT value FROM settings WHERE key = ?').get(key) as
+      | SettingRow
+      | undefined
     return row?.value ?? null
   },
 
