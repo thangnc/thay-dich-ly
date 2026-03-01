@@ -8,17 +8,10 @@ interface Props {
   session: Session | null
   onSendQuestion: (q: string) => void
   onChooseMethod: (method: 'auto' | 'coin') => void
-  onTossCoinStep: () => void
   onNewSession: () => void
 }
 
-export function ChatArea({
-  session,
-  onSendQuestion,
-  onChooseMethod,
-  onTossCoinStep,
-  onNewSession
-}: Props) {
+export function ChatArea({ session, onSendQuestion, onChooseMethod, onNewSession }: Props) {
   const bottomRef = useRef<HTMLDivElement>(null)
 
   // Auto-scroll to bottom on new messages
@@ -28,6 +21,7 @@ export function ChatArea({
 
   const isCasting = session?.state === 'casting'
   const isCastDone = session?.state === 'cast_done'
+  const methodChosen = isCasting || isCastDone
 
   // Find the index of the last casting_step message without a lineValue (the active one)
   const castingMessages = session?.messages.filter(m => m.type === 'casting_step') ?? []
@@ -99,9 +93,9 @@ export function ChatArea({
               key={msg.id}
               msg={msg}
               onChooseMethod={onChooseMethod}
-              onTossCoin={onTossCoinStep}
               isCastingActive={isCasting}
               isCurrentCoinStep={isCurrentCoinStep}
+              methodChosen={methodChosen}
             />
           )
         })}

@@ -84,9 +84,12 @@ interface MethodSelectProps {
   msg: Message
   onChoose: (method: 'auto' | 'coin') => void
   disabled: boolean
+  hidden: boolean
 }
 
-function MethodSelectBubble({ msg, onChoose, disabled }: MethodSelectProps) {
+function MethodSelectBubble({ msg, onChoose, disabled, hidden }: MethodSelectProps) {
+  if (hidden) return null
+
   return (
     <div className="msg">
       <AssistantAvatar />
@@ -200,25 +203,26 @@ function HexagramResultBubble({ msg }: { msg: Message }) {
 interface Props {
   msg: Message
   onChooseMethod: (method: 'auto' | 'coin') => void
-  onTossCoin: () => void
   isCastingActive: boolean
   isCurrentCoinStep: boolean
+  methodChosen: boolean
 }
 
-export function MessageBubble({
-  msg,
-  onChooseMethod,
-  onTossCoin,
-  isCastingActive,
-  isCurrentCoinStep
-}: Props) {
+export function MessageBubble({ msg, onChooseMethod, isCastingActive, isCurrentCoinStep, methodChosen }: Props) {
   switch (msg.type) {
     case 'welcome':
       return <WelcomeBubble msg={msg} />
     case 'method_select':
-      return <MethodSelectBubble msg={msg} onChoose={onChooseMethod} disabled={isCastingActive} />
+      return (
+        <MethodSelectBubble
+          msg={msg}
+          onChoose={onChooseMethod}
+          disabled={isCastingActive}
+          hidden={methodChosen}
+        />
+      )
     case 'casting_step':
-      return <CastingStepBubble msg={msg} onToss={onTossCoin} isCurrent={isCurrentCoinStep} />
+      return <CastingStepBubble msg={msg} onToss={() => {}} isCurrent={isCurrentCoinStep} />
     case 'hexagram_result':
       return <HexagramResultBubble msg={msg} />
     default:

@@ -2,6 +2,7 @@ import { useState } from 'react'
 import { TopNav } from './components/TopNav'
 import { Sidebar } from './components/Sidebar'
 import { ChatArea } from './components/ChatArea'
+import { CoinTossScreen } from './components/CoinTossScreen'
 import { RightPanel } from './components/RightPanel'
 import { useApp } from './hooks/useApp'
 
@@ -11,13 +12,19 @@ export function App() {
   const {
     sessions,
     activeSession,
+    coinStepIndex,
+    pendingCoinLines,
     createNewSession,
     setActiveSession,
     deleteSession,
     sendQuestion,
     chooseMethod,
-    tossCoinStep
+    tossCoinStep,
+    cancelCoinToss,
+    autoCompleteCoinToss
   } = useApp()
+
+  const isCasting = activeSession?.state === 'casting'
 
   return (
     <div className="app-layout">
@@ -32,13 +39,23 @@ export function App() {
           onDelete={deleteSession}
         />
 
-        <ChatArea
-          session={activeSession}
-          onSendQuestion={sendQuestion}
-          onChooseMethod={chooseMethod}
-          onTossCoinStep={tossCoinStep}
-          onNewSession={createNewSession}
-        />
+        {isCasting && activeSession ? (
+          <CoinTossScreen
+            question={activeSession.question}
+            stepIndex={coinStepIndex}
+            completedLines={pendingCoinLines}
+            onToss={tossCoinStep}
+            onCancel={cancelCoinToss}
+            onAutoComplete={autoCompleteCoinToss}
+          />
+        ) : (
+          <ChatArea
+            session={activeSession}
+            onSendQuestion={sendQuestion}
+            onChooseMethod={chooseMethod}
+            onNewSession={createNewSession}
+          />
+        )}
 
         <RightPanel castResult={activeSession?.castResult ?? null} />
       </div>

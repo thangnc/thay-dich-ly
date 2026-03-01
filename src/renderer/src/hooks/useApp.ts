@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react'
-import type { Session, Message, MessageType, SessionState } from '../types'
-import { autoCast, deriveHexagrams, uid } from '../utils/casting'
+import type { Session, Message, MessageType, SessionState, LineValue } from '../types'
+import { autoCast, deriveHexagrams, tossThreeCoins, uid } from '../utils/casting'
 
 // ─── Window API type ──────────────────────────────────────────────────────────
 
@@ -61,7 +61,9 @@ export interface AppActions {
   deleteSession: (id: string) => void
   sendQuestion: (question: string) => void
   chooseMethod: (method: 'auto' | 'coin') => void
-  tossCoinStep: () => void
+  tossCoinStep: (lineValue: LineValue) => void
+  cancelCoinToss: () => void
+  autoCompleteCoinToss: () => void
 }
 
 export function useApp(): AppState & AppActions {
@@ -270,51 +272,77 @@ export function useApp(): AppState & AppActions {
     [activeId, sessions]
   )
 
-  const tossCoinStep = useCallback(async () => {
-    if (!activeId) return
-    const lineValue = autoCast()[0] // toss one line
-    const newLines = [...pendingCoinLines, lineValue] as import('../types').LineValue[]
-    setPendingCoinLines(newLines)
-    const nextStep = coinStepIndex + 1
-    setCoinStepIndex(nextStep)
+  const tossCoinStep = useCallback(
+    async (lineValue: LineValue) => {
+      if (!activeId) return
+      const stepIdx = coinStepIndex
+      const newLines = [...pendingCoinLines, lineValue] as LineValue[]
 
+      // Record this step as a chat message
+      const lineLabels = ['Sơ Hào', 'Nhị Hào', 'Tam Hào', 'Tứ Hào', 'Ngũ Hào', 'Thượng Hào']
+      const stepMsg = makeMessage(activeId, 'assistant', 'casting_step', `Hào ${stepIdx + 1} — ${lineLabels[stepIdx]}`, {
+        step: stepIdx,
+        lineValue
+      })
+      addMessageToSession(activeId, stepMsg)
+
+      setPendingCoinLines(newLines)
+      const nextStep = stepIdx + 1
+      setCoinStepIndex(nextStep)
+
+      if (nextStep >= 6) {
+        // All 6 lines done — compute hexagram
+        const session = sessions.find(s => s.id === activeId)
+        if (!session) return
+        const result = deriveHexagrams(newLines)
+        if (!result) return
+
+        const resultMsg = makeMessage(activeId, 'assistant', 'hexagram_result', `Quẻ: ${result.primaryHex.fullName}`, {
+          castResult: result
+        })
+        addMessageToSession(activeId, resultMsg)
+
+        updateSession(activeId, s => ({ ...s, state: 'cast_done', castResult: result }))
+        await window.api.updateSession(activeId, sessionToPatch({ ...session, castResult: result, state: 'cast_done' }))
+        setCoinStepIndex(0)
+        setPendingCoinLines([])
+      }
+    },
+    [activeId, coinStepIndex, pendingCoinLines, sessions]
+  )
+
+  const cancelCoinToss = useCallback(() => {
+    if (!activeId) return
+    setCoinStepIndex(0)
+    setPendingCoinLines([])
+    updateSession(activeId, s => ({
+      ...s,
+      state: 'asked',
+      messages: s.messages.filter(m => m.type !== 'casting_step')
+    }))
+  }, [activeId])
+
+  const autoCompleteCoinToss = useCallback(async () => {
+    if (!activeId) return
     const session = sessions.find(s => s.id === activeId)
     if (!session) return
 
-    if (nextStep < 6) {
-      // Update the last casting_step message to show result and add next step
-      const lineLabels = ['Sơ Hào', 'Nhị Hào', 'Tam Hào', 'Tứ Hào', 'Ngũ Hào', 'Thượng Hào']
-      const stepMsg = makeMessage(
-        activeId,
-        'assistant',
-        'casting_step',
-        `Hào ${nextStep + 1} (${lineLabels[nextStep]}) — Nhấn "Tung tiền" để gieo.`,
-        { step: nextStep, lineValue }
-      )
-      addMessageToSession(activeId, stepMsg)
-    } else {
-      // All 6 lines done — compute hexagram
-      const result = deriveHexagrams(newLines)
-      if (!result) return
+    const allLines = [...pendingCoinLines] as LineValue[]
+    while (allLines.length < 6) allLines.push(tossThreeCoins())
 
-      const resultMsg = makeMessage(
-        activeId,
-        'assistant',
-        'hexagram_result',
-        `Quẻ: ${result.primaryHex.fullName}`,
-        { castResult: result }
-      )
-      addMessageToSession(activeId, resultMsg)
+    const result = deriveHexagrams(allLines)
+    if (!result) return
 
-      updateSession(activeId, s => ({ ...s, state: 'cast_done', castResult: result }))
-      await window.api.updateSession(
-        activeId,
-        sessionToPatch({ ...session, castResult: result, state: 'cast_done' })
-      )
-      setCoinStepIndex(0)
-      setPendingCoinLines([])
-    }
-  }, [activeId, coinStepIndex, pendingCoinLines, sessions])
+    const resultMsg = makeMessage(activeId, 'assistant', 'hexagram_result', `Quẻ: ${result.primaryHex.fullName}`, {
+      castResult: result
+    })
+    addMessageToSession(activeId, resultMsg)
+
+    updateSession(activeId, s => ({ ...s, state: 'cast_done', castResult: result }))
+    await window.api.updateSession(activeId, sessionToPatch({ ...session, castResult: result, state: 'cast_done' }))
+    setCoinStepIndex(0)
+    setPendingCoinLines([])
+  }, [activeId, pendingCoinLines, sessions])
 
   return {
     sessions,
@@ -326,6 +354,8 @@ export function useApp(): AppState & AppActions {
     deleteSession,
     sendQuestion,
     chooseMethod,
-    tossCoinStep
+    tossCoinStep,
+    cancelCoinToss,
+    autoCompleteCoinToss
   }
 }
